@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { PlaceholderService } from './placeholder.service';
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dataSub.unsubscribe();
   }
 
-  buttonToggle(event: MatButtonToggleChange) {
+  buttonToggle(event: MatButtonToggleChange): any {
     switch (event.value) {
       case 'id':
         this.dataSource.filterPredicate = this.filterById;
@@ -51,10 +51,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private filterById(data: any, filter: string): boolean {
-    return !filter || data.id === filter;
+    return !filter || data.id === +filter;
   }
 
   private filterByUserId(data: any, filter: string): boolean {
-    return !filter || data.userId === filter;
+    return !filter || data.userId === +filter;
+  }
+
+  applyFilter(value: string): void {
+    this.dataSource.filter = value;
   }
 }

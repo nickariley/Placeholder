@@ -4,7 +4,9 @@
   <mat-button-toggle value="userId">User Id</mat-button-toggle>
   <mat-button-toggle value="all">All</mat-button-toggle>
 </mat-button-toggle-group>
-
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="filter">
+</mat-form-field>
 <div class="dynamic-table">
   <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
