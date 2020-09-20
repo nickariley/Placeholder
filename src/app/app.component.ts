@@ -1,5 +1,5 @@
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,13 @@ import { PlaceholderService } from './placeholder.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  columns: any [] = [
+    { columnDef: 'id', header: 'Id'},
+    { columnDef: 'userId', header: 'User Id'},
+    { columnDef: 'title', header: 'Title'},
+    { columnDef: 'completed', header: 'Completed'}
+  ];
+  displayedColumns: string[] = this.columns.map(c => c.columnDef);
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort, {static: true})sort: MatSort;
   dataSub: Subscription;
@@ -26,6 +33,28 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.dataSub.unsubscribe();
+  }
+
+  buttonToggle(event: MatButtonToggleChange) {
+    switch (event.value) {
+      case 'id':
+        this.dataSource.filterPredicate = this.filterById;
+        break;
+      case 'userId':
+        this.dataSource.filterPredicate = this.filterByUserId;
+        break;
+      case 'all':
+        this.dataSource.filterPredicate = this.originalFilter;
+        break;
+    }
+  }
+
+  private filterById(data: any, filter: string): boolean {
+    return !filter || data.id === filter;
+  }
+
+  private filterByUserId(data: any, filter: string): boolean {
+    return !filter || data.userId === filter;
   }
 }
