@@ -1,14 +1,14 @@
 <label>Filter: </label>
 <mat-button-toggle-group value="all" (change)="buttonToggle($event)">
-  <mat-button-toggle value="id">Id</mat-button-toggle>
-  <mat-button-toggle value="userId">User Id</mat-button-toggle>
-  <mat-button-toggle value="all">All</mat-button-toggle>
+  <mat-button-toggle class="buttonToggle" value="id">Id</mat-button-toggle>
+  <mat-button-toggle class="buttonToggle" value="userId">User Id</mat-button-toggle>
+  <mat-button-toggle class="buttonToggle" value="all">All</mat-button-toggle>
 </mat-button-toggle-group>
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="filter">
 </mat-form-field>
 <div class="dynamic-table">
-  <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+  <table style="width: 90%; margin-left: 5%; margin-right: 5%;" mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
       <th mat-header-cell mat-sort-header *matHeaderCellDef>{{column.header}}</th>
       <td mat-cell *matCellDef="let element">{{element[column.columnDef]}}</td>
@@ -17,4 +17,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <mat-paginator style="float: left; margin-top: 15px;" [pageSize]="10" [showFirstLastButtons]="true"></mat-paginator>
 </div>
